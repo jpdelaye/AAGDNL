@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Automatic Directions in Natural Language</title>
+</head>
+<body>
+  <h1>Automatic Directions in Natural Language</h1>
+  <div>
+    <label for="start">Starting Point (e.g., A1):</label>
+    <input type="text" id="start" placeholder="e.g., A1">
+    <label for="end">Destination Point (e.g., C3):</label>
+    <input type="text" id="end" placeholder="e.g., C3">
+    <button onclick="generateDirections()">Generate Directions</button>
+  </div>
+  <div id="directions"></div>
+
+  <script>
+    // Grid-based environment with directional movements
+    const grid = [
+      ['A1', 'A2', 'A3'],
+      ['B1', 'B2', 'B3'],
+      ['C1', 'C2', 'C3'],
+    ];
+
+    // Function to generate directions in natural language
+    function generateDirections() {
+      const startInput = document.getElementById('start').value.toUpperCase();
+      const endInput = document.getElementById('end').value.toUpperCase();
+
+      // Find the positions of the start and end points in the grid
+      let startRow, startCol, endRow, endCol;
+      for (let row = 0; row < grid.length; row++) {
+        for (let col = 0; col < grid[row].length; col++) {
+          if (grid[row][col] === startInput) {
+            startRow = row;
+            startCol = col;
+          }
+          if (grid[row][col] === endInput) {
+            endRow = row;
+            endCol = col;
+          }
+        }
+      }
+
+      // Generate directions based on row and column differences
+      const rowDiff = endRow - startRow;
+      const colDiff = endCol - startCol;
+
+      let directions = 'Directions: ';
+      if (rowDiff > 0) {
+        directions += 'Go down ';
+      } else if (rowDiff < 0) {
+        directions += 'Go up ';
+      }
+
+      if (Math.abs(rowDiff) > 0) {
+        directions += `${Math.abs(rowDiff)} row(s), `;
+      }
+
+      if (colDiff > 0) {
+        directions += 'Go right ';
+      } else if (colDiff < 0) {
+        directions += 'Go left ';
+      }
+
+      if (Math.abs(colDiff) > 0) {
+        directions += `${Math.abs(colDiff)} column(s).`;
+      }
+
+      document.getElementById('directions').textContent = directions;
+    }
+
+    
+  </script>
+</body>
+</html>
